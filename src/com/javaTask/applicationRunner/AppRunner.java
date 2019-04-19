@@ -14,13 +14,14 @@ import com.javaTask.utilities.ConnectionUtilities;
 
 public class AppRunner {
 	private static Logger log = Logger.getLogger(AppRunner.class.getName());
-	private static File file = new File("C:\\Users\\Alexander\\eclipse-workspace\\dataio\\log\\connections.txt");
+	private static File file = new File(System.getProperty("user.dir") 
+			+ File.separator + "log" + File.separator + "connections.txt");
 
 	public static void main(String[] args) {
+		
 		try {
 			populateFile(file);
 		} catch (NoSuchFileExc | IOExc e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

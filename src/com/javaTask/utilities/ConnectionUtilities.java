@@ -9,17 +9,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.javaTask.applicationRunner.AppRunner;
 import com.javaTask.entity.Connection;
 import com.javaTask.exceptions.IOExc;
 import com.javaTask.exceptions.NoItemsExc;
 import com.javaTask.exceptions.NoSuchFileExc;
 
 public final class ConnectionUtilities {
-
-	private ConnectionUtilities() {
-	}
+	private static final Logger log = Logger.getLogger(ConnectionUtilities.class.getName());
 
 	public static List<Connection> readFromFile(File file) throws NoSuchFileExc {
 		StringBuilder buffer = new StringBuilder();
@@ -45,6 +45,7 @@ public final class ConnectionUtilities {
 
 		try (OutputStream os = new FileOutputStream(file, true)) {
 			os.write(str.getBytes());
+			os.write("\n".getBytes());
 		} catch (FileNotFoundException e) {
 			throw new NoSuchFileExc("Failed to find the file");
 		} catch (IOException e) {
@@ -56,8 +57,8 @@ public final class ConnectionUtilities {
 
 	public static File removeOldRecords(File file) throws NoSuchFileExc {
 		List<Connection> tempLst = readFromFile(file);
-		File updated = new File(file.getAbsolutePath());
-		file.delete();
+		File updated = new File(System.getProperty("user.dir") 
+				+ File.separator + "log" + File.separator + file.getName());
 		long threeDays = System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 3);
 
 		// filter out old records and write to file
@@ -66,7 +67,7 @@ public final class ConnectionUtilities {
 			try {
 				writeLineToFile(e.printConnection(), updated);
 			} catch (NoSuchFileExc | IOExc e1) {
-				// ignore so far
+				log.info("Exception occured while writing to the file");
 			}
 				
 		});

@@ -3,6 +3,7 @@ package com.javaTest.utilities;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -14,8 +15,8 @@ import com.javaTask.exceptions.NoSuchFileExc;
 import com.javaTask.utilities.ConnectionUtilities;
 
 class ConnectionUtilitiesTest {
-	private static File testFile = new File(
-			"C:\\Users\\Alexander\\eclipse-workspace\\dataio\\log\\connectionsTest.txt");
+	private static File testFile = new File(System.getProperty("user.dir") 
+			+ File.separator + "log" + File.separator + "connectionsTest.txt");
 	private Connection con = new Connection(1555400000000l, 111111111, "111.111.11.1");
 
 	@Test
@@ -54,7 +55,7 @@ class ConnectionUtilitiesTest {
 			ConnectionUtilities.writeLineToFile(con2.printConnection(), testFile);
 			testFile = ConnectionUtilities.removeOldRecords(testFile);
 			testCon = ConnectionUtilities.readFromFile(testFile);
-		} catch (NoSuchFileExc | IOExc e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 

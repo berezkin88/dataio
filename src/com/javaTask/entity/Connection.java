@@ -37,7 +37,7 @@ public class Connection {
 	}
 
 	public String printConnection() {
-		return timestamp + " " + session + " " + ip + "\n";
+		return timestamp + " " + session + " " + ip;
 	}
 
 	@Override
