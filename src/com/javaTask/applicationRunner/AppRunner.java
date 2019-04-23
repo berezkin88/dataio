@@ -50,7 +50,7 @@ public class AppRunner {
 		}
 		
 		try {
-			Thread.sleep(1000 * 60 * 3);
+			Thread.sleep(1000 * 60 * 30);
 		} catch (InterruptedException e) {
 			throw new IntExc("The thread " + Thread.currentThread().getName() + " was interrupted");
 		}
